@@ -1,10 +1,19 @@
 // importer le protocole http
 // require() permet d'importer le package, 
 // ici le package importé est http
-const http = require('http');
+// avant de convertir en ES, j'avais écrit : 
+// const http = require("http"); => code seloin ES5 (avant 2015)
+import { createServer } from "http"; // Codage selon ES6 (2015)
+
+
 
 // déclaration du serveur en utilisant http
-const server = http.createServer((req, res) => {
+// const server = http.createServer((req, res) => {});
+// On crée le serveur selon la recommandation ES6 
+
+const server = createServer((req, res) => {
+    // En terme de réponse, renvoie au client le message "Bonjour, ..."
+    // pour renvoyer le message de réponse, res utilise la méthode end() 
     res.end("Bonjour, Je suis le serveur.");
 });
 
@@ -26,7 +35,7 @@ server.listen(3000);
 
 /* 
 ===== En résumé =====
-1. Le projet Node est initialisé avec la commande  " node init"
+1. Le projet Node est initialisé avec la commande "npm init"
 2. un serveur Node basique est lancé grâce 
 à la méthode createServer venant du package http "http.createServer()"
 Les paramètres 'req' et 'res' sont obligatoires pour createServer().
@@ -36,3 +45,5 @@ exemple, ici, le serveur retourne
 le message "Bonjour, Je suis le serveur."
 et ce grâce au code res.end("Bonjour, Je suis le serveur.");
 */
+
+// Sur Google , recherchez le mot "expressjs"
