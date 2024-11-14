@@ -3,22 +3,38 @@
 // ici le package importé est http
 // avant de convertir en ES, j'avais écrit : 
 // const http = require("http"); => code seloin ES5 (avant 2015)
-import { createServer } from "http"; // Codage selon ES6 (2015)
+//import { createServer } from "http"; // Codage selon ES6 (2015)
+const http = require('http');
+const app = require('./app');
 
+const numPort = 3002;
 
+app.set("port", numPort);
+const server = http.createServer(app);
+
+// Récupèrez l'heure ici
+const date = new Date();
+
+server.listen(numPort, () => {
+    // Affichez l'heure
+
+    // console.log(`Le serveur est activé au port : ${numPort}`);
+    console.log(date.toLocaleDateString()," ", date.toLocaleTimeString(), " - Le serveur est activé au port : " , numPort);
+
+});
 
 // déclaration du serveur en utilisant http
 // const server = http.createServer((req, res) => {});
 // On crée le serveur selon la recommandation ES6 
 
-const server = createServer((req, res) => {
-    // En terme de réponse, renvoie au client le message "Bonjour, ..."
-    // pour renvoyer le message de réponse, res utilise la méthode end() 
-    res.end("Bonjour, Je suis le serveur.");
-});
+// const server = createServer((req, res) => {
+//     // En terme de réponse, renvoie au client le message "Bonjour, ..."
+//     // pour renvoyer le message de réponse, res utilise la méthode end() 
+//     res.end("Bonjour, Je suis le serveur.");
+// });
 
 // le serveur est disponible sur le port 3000
-server.listen(3000);
+//server.listen(3000);
 
 // On va lancer le server!!
 // sur GitBash, exécuter la commande node server
