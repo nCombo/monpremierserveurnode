@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A propos</title>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+    <!-- ici j'inclus la barre de naviagtrion (navbar) -->
+    <%- include("navbar") -%>
+    <!-- Fin de navbar -->
+    
+
+    <h2>Qui suis-je?</h2>
+    <ul>
+        <% plat.nom.forEach(n => { %>
+            <li> <%= n  %> <em>  <%= plat.prix  %> </em>  </li>
+        <% }) %>
+    </ul>
+
+     <!-- ici j'inclus la vue footer (footer) -->
+     <%- include("footer") -%>
+</body>
+</html>

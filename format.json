@@ -1,0 +1,24 @@
+// Le format JSON
+// JSON = JavaScript Object Notation
+{
+    "nom": "COMBO",
+    "prenom": "Nourdine",
+    "ville": "Passam"
+}
+
+{ 
+    objet:
+    {
+        "name":"John",  //objet.nom
+        "age":30,  // objet["age"]
+        "car":null,
+        "city":"New York"
+    },
+    
+    {
+        "name":"Abdou", 
+        "age":31, 
+        "city":"New York",
+        "car":null
+    }
+}

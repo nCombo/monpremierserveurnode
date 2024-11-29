@@ -1,0 +1,41 @@
+body {
+    background-color: #eb5398;
+}
+
+h1{
+    color:yellowgreen;
+}
+
+
+p{
+   /* color:blueviolet;*/
+    /*background-color:orange;
+    font-family:'Times New Roman', Times, serif;*/
+}
+
+/* Color for maclasse */
+.maclasse{
+    color: green;
+}
+
+#fruits {
+    font-size: 35px; /* Définir la taille de mon texte */
+    /* Préciser la police d'écriture */
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.mabordure {
+    padding: 30px;
+    background-color: green;
+    border: solid red;
+    border-top:25px #EB5353 solid;
+    border-right: 20px #eb5398 solid;
+    border-bottom: 25px goldenrod solid;
+    border-left: 20px yellowgreen solid;
+    border-radius: 10px 10px 10px;
+}
+
+/* Footer*/
+footer{
+    background-color: grey;
+}

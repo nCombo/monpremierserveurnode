@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nodejs serveur</title>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+    <!-- ici j'inclus la barre de naviagtrion (navbar) -->
+     <%- include("navbar") -%>
+
+
+
+    <h1>Karibu muje dde hatru.</h1>
+    <% utilisateur.nom.forEach(n => { %>
+        <h3> <%= utilisateur.maSalutation + " "+ n %></h3>
+    <% }) %>
+    
+    <img src="https://www.webconversion.fr/wp-content/uploads/2019/06/outils-sondages-questionnaires-formulaires-en-ligne.jpg">
+
+     <!-- ici j'inclus la vue footer (footer) -->
+     <%- include("footer") -%>
+</body>
+</html>
