@@ -1,25 +1,28 @@
 // import du framework ExpressJs
 // import express from "express";
 const express = require("express");
-const mysql = require("mysql");
+//const mysql = require("mysql");
+const mysql2 = require("mysql2");
 const myConnection = require("express-myconnection");
 const url = require("url");
 const fs = require("fs"); // le module fs permet de manipuler des fichiers
 
-const optionConnection = {
-    host: "localhost",
-    user: "root",
-    password: "pd+12SQm",
-    port: 3306,
-    database: "restaurant"
-};
+
 
 // on crée l'application Expressjs
 const app = express();
+// je configure les paramètres de connection à MySQL Server
+const optionConnection = {
+    host: "localhost",
+    user: "trainerit",
+    password: "Lp+3fACJai",
+    database: "restaurant",
+    port: 3306
+};
 
 // Middleware de connection à la base de données
 // 'pool' est la stratégie de connection à la base de données 
-app.use(myConnection(optionConnection, "pool"));
+app.use(myConnection(mysql2, optionConnection, "pool"));
 
 // L'endroit où se situent les vues qui s'affichent sur la navigateur
 app.set("views", "./views"); 
@@ -84,6 +87,28 @@ app.get("/", (req, res) => {
 // route pour http://localhost:3002/accueil
 // API
 app.get("/accueil", (req, res) => {
+    
+    // Je veux récupèerer la liste des plats enregistrés dans la base de données 'Restaurant'
+    // D'abord, je me connecte à la base de données grâce à la méthode getConnection()
+    req.getConnection((erreur, connection)=> {
+        if(erreur) { // Je teste s'il y a une erreur lors de la connection à la base de données
+            console.log(erreur); // J'affiche l'erreur
+        } else { // S'il n'y a pas d'erreur de connection à la base de données
+            // Alors, j'envoie une requête SQL pour récupérer tous les enregistrements de la table 'plat'
+            // Et les enregistrements récupérés sont stockés dans un tableau []
+            connection.query("SELECT * FROM plat",[], (err, resultat) => {
+                if (err) { // Je teste s'il y a une erreur
+                    console.log(err);
+                } else { // S'il n'y a pas d'erreur
+                    // J'affiche le résultat sur la console du serveur nodejs
+                    console.log("resultat : ", resultat);
+                    // Je retourne au clien tla vue 'accueil' associée au résultat provenant de la bse de données
+                    res.render("accueil", {resultat}); 
+                }
+
+            });
+        }
+    });
     //1. Récupère actuelle
     let date = new Date();
     let salutation ="Bonjour";
@@ -98,7 +123,8 @@ app.get("/accueil", (req, res) => {
         maSalutation: salutation
     };
 
-    res.render("accueil", utilisateur);
+
+    
     
 });
 // route /apropos

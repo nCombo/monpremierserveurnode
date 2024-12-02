@@ -13,8 +13,9 @@
 
 
     <h1>Karibu muje dde hatru.</h1>
-    <% utilisateur.nom.forEach(n => { %>
-        <h3> <%= utilisateur.maSalutation + " "+ n %></h3>
+    <% resultat.forEach(r => { %>
+        <h3> <%=  r.nom %></h3> <span><%= r.prix %></span>
+        
     <% }) %>
     
     <img src="https://www.webconversion.fr/wp-content/uploads/2019/06/outils-sondages-questionnaires-formulaires-en-ligne.jpg">
