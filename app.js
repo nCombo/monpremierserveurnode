@@ -9,13 +9,14 @@ const fs = require("fs"); // le module fs permet de manipuler des fichiers
 
 
 
+
 // on crée l'application Expressjs
 const app = express();
 // je configure les paramètres de connection à MySQL Server
 const optionConnection = {
     host: "localhost",
-    user: "trainerit",
-    password: "Lp+3fACJai",
+    user: "root",
+    password: "pd+12SQm",
     database: "restaurant",
     port: 3306
 };
@@ -24,6 +25,8 @@ const optionConnection = {
 // 'pool' est la stratégie de connection à la base de données 
 app.use(myConnection(mysql2, optionConnection, "pool"));
 
+// Extraction des données du formulaire
+app.use(express.urlencoded({extended: false}));
 // L'endroit où se situent les vues qui s'affichent sur la navigateur
 app.set("views", "./views"); 
 
@@ -108,24 +111,7 @@ app.get("/accueil", (req, res) => {
 
             });
         }
-    });
-    //1. Récupère actuelle
-    let date = new Date();
-    let salutation ="Bonjour";
-
-    //2. Affiche Bonjour =si c'est le matin, Bonsoir pour le soir
-    if(date.getHours() > 14) {
-        salutation = "Bonsoir";
-    }
-    utilisateur = {
-        nom:["Combo", "Said", "Abdou"],
-        prenom: "Nourdine",
-        maSalutation: salutation
-    };
-
-
-    
-    
+    }); 
 });
 // route /apropos
 app.get("/apropos", (req, res) => {
@@ -147,11 +133,73 @@ app.get("/contact", (req, res) => {
 });
 
 // créer une route avec la méthode POST
+app.post("/plat", (req, res) => {
+    console.log("Corps requête Body: ", req.body);
+    console.log("Corps requête nom: ", req.body.nom);
+    console.log("Corps requête prix: ", req.body.prix);
+    
+    let nomPlat = req.body.nom;
+    let prixPlat = req.body.prix;
+    let platId;
+    let requeteSQL;
 
+    if(req.body.id === "") {
+        platId = null;
+        requeteSQL = "INSERT INTO plat(id,nom, prix) VALUES(?,?,?)"; // [id, nom,prix]
+    } else {
+        platId = req.body.id;
+        requeteSQL = "UPDATE plat SET nom = ?, prix = ? WHERE id = ?";
+    }
+    
+    let ordreDonnees;
+    if(platId === null) { // Création
+        ordreDonnees = [null,nomPlat, prixPlat];// Ordre de données [id, nom, prix]
+    } else { // Modification
+        ordreDonnees = [nomPlat, prixPlat, platId];// Ordre de données [nom, prix, id]
+    }
+
+    req.getConnection((erreur, connection)=> {
+        if(erreur) { 
+            console.log(erreur); 
+        } else { 
+            connection.query(requeteSQL, ordreDonnees, (err, nouveauPlat) => {
+                if (err) { 
+                    console.log(err);
+                } else { 
+                    console.log("Insertion réussie  ==) ");
+                    // Je redirige l'utilisateur vers la vue accueil
+                    res.status(300).redirect("/accueil"); 
+                }
+            });
+        }
+    });
+
+    //res.render("formplat");
+});
 // créer une route avec la méthode PUT
 
 // créer une route avec la méthode DELETE
+// localhost:3006/plat/1, le chiffre 1 correspoand à l'id du plat à supprimer
+app.delete("/plat/:id", (req, res) => {
+    let platId = req.params.id; // récupère l'id à partir de l'objet params
 
+    req.getConnection((erreur, connection) => {
+        if (erreur) {
+            console.log(erreur);
+        } else {
+            connection.query("DELETE FROM plat WHERE id = ?", 
+                [platId], (err, result) => {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log("Suppression réussie");
+                    res.status(200).json({ routeRacine: "/"});
+                    }
+                });
+        }
+    });
+
+});
 /*
 === API ===
 */

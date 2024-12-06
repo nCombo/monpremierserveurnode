@@ -13,14 +13,51 @@
 
 
     <h1>Karibu muje dde hatru.</h1>
-    <% resultat.forEach(r => { %>
-        <h3> <%=  r.nom %></h3> <span><%= r.prix %></span>
-        
-    <% }) %>
+    <section>
+        <% resultat.forEach(r => { %>
+            <h3> <%=  r.nom %></h3> <span><%= r.prix %></span> <br>
+            <input type="button" value="Supprimer" onclick="supprimerDonnees('<%= r.id %>')">
+            <input type="button" value="Modifier" onclick="remplirDoonees('<%= r.id %>', '<%= r.nom %>', '<%= r.prix %>')">
+        <% }) %>
+
+    </section>
     
-    <img src="https://www.webconversion.fr/wp-content/uploads/2019/06/outils-sondages-questionnaires-formulaires-en-ligne.jpg">
+
+    <div>
+        <h3>Créer un noveau plat</h3>
+        <form action="/plat" method="post">
+            <input type="hidden" name="id" id="id">
+            <label for="nomplat">Nom du plat:</label><br>
+            <input type="text" id="nomplat" name="nom" ><br>
+            <label for="prixplat">Prix:</label><br>
+            <input type="number" id="prix" name="prix"><br><br>
+            <input type="submit" value="Enregistrer">
+        </form>
+    </div>
+
+    
+    <!-- <img src="https://www.webconversion.fr/wp-content/uploads/2019/06/outils-sondages-questionnaires-formulaires-en-ligne.jpg"> -->
 
      <!-- ici j'inclus la vue footer (footer) -->
      <%- include("footer") -%>
 </body>
+    <script>
+        function remplirDoonees(id, nom, prix) {
+            document.querySelector("#id").value = id;
+            document.querySelector("#nomplat").value = nom;
+            document.querySelector("#prix").value = prix;
+        }
+
+        function supprimerDonnees(id) {
+            let routeComplete = "plat/" + id;
+
+            fetch( 
+                routeComplete, {method : "DELETE"}
+            ).then(
+                (reponse) => response.json()
+            ).then(
+                (donnee) => window.location.href = donnee.routeRacine
+            ).catch((erreur) => console.log(erreur))
+        }
+    </script>
 </html>
